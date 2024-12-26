@@ -47,3 +47,31 @@ h2{
     text-align: center;
     margin-bottom: 10px;
 }
+.add_btn{
+    text-align: center;
+    display: block;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    background-color: aqua;
+    text-decoration: none;
+    max-width:120px;
+    margin: 0 auto;
+    margin-bottom: 10px;
+}
+label{
+    width: 100%;
+}
+input{
+    width: 100%;
+}
+form{
+    width: 100%;
+    border: 1px solid #000;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+}
+.submit_btn{
+    background-color: aqua;
+    margin-top: 10px;
+}
