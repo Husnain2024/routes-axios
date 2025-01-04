@@ -61,6 +61,7 @@ h2{
 label{
     width: 100%;
 }
+textarea,
 input{
     width: 100%;
 }

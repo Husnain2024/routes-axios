@@ -26,8 +26,6 @@ const handleInputChange = (e) =>{
     
 }
 
-
-
 const APIURL = "https://676abac0863eaa5ac0df6fca.mockapi.io/books";
 
 const handleSubmit = async (e) => {
@@ -47,7 +45,7 @@ const handleSubmit = async (e) => {
             }
             
         )
-        // navigate('/books')
+        navigate('/books')
     }
     
 }
