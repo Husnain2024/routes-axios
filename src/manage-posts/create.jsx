@@ -14,9 +14,10 @@ const CreatePost = ()  =>{
 
     const navigate = useNavigate();
 
-    const parms = useParams();
+    const params = useParams();
+    console.log(params,"params");
     
-    console.log(formData,"formdata");
+
     
     
 const handleInputChange = (e) =>{
@@ -27,45 +28,65 @@ const handleInputChange = (e) =>{
         [name]:value
     })
 }
-const APIURL = "https://676abac0863eaa5ac0df6fca.mockapi.io/post"
+const APIURL = `https://676abac0863eaa5ac0df6fca.mockapi.io/post`
+console.log(APIURL);
 
-const getPostData = async () => {
+const getPostById = async () => {
     try {
-        const res = await axios.get(`${APIURL}/${parms.id}`);
-        if (res.status === 200) {
-            setFormData(res.data )
-        }
+        const res = await axios.get(`${APIURL}/${params.id}`);
+        const{title,author,description}=res.data;
+        setFormData({
+            title:title,
+            author:author ,
+            description:description
+        })
         
     } catch (error) {
         console.error(error);
-
+        
     }
 }
 
-
 useEffect(()=>{
-    if (parms.id) {
-        getPostData();
+    if (params.id) {
+        getPostById();
     }
-},[parms.id])
-
+},[params?.id])
 
 
 const handleSubmit = async (e) => {
     e.preventDefault();
     if ((formData.title !== "") && (formData.author !== "") && (formData.description !== "") ) {
-        const res = await axios.post(APIURL,formData)
-        console.log(res);
-        if (res.status === 201) {
-            setFormData({
-                    title:"",
-                    author:"",
-                    description:""
-                }
-            )   
-            navigate('/blogs');
+        
+        // agar ap k pass id ho gi
+        if (params.id) {
+            console.log("edit ho gaya hai");    
+            const res = await axios.put(`${APIURL}/${params.id}`,formData)
+            if (res.status === 201 || res.status === 200) {
+                setFormData({
+                        title:"",
+                        author:"",
+                        description:""
+                    }
+                )   
+                navigate('/blogs');
+            }
         }
-
+        else{
+            const res = await axios.post(APIURL,formData)
+            console.log("add ho gaya hai");
+            
+            // agar id nahe ho gi jab create ho ga
+            if (res.status === 201) {
+                setFormData({
+                        title:"",
+                        author:"",
+                        description:""
+                    }
+                )   
+                navigate('/blogs');
+            }
+        }
         
         setError("")
     }else{
@@ -75,7 +96,7 @@ const handleSubmit = async (e) => {
 
     return(<>
 
-        <h2>Create Post</h2>
+        <h2>{params.id ? "Edit Post" : "Create Post"}</h2>
         <form onSubmit={handleSubmit}>
         {error && <h3 style={{textAlign:"center"}}>{error}</h3>}
     

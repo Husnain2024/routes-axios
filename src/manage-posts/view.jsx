@@ -39,13 +39,7 @@ useEffect(()=>{
 },[])
 
 
-const handleDeletePost = async (id) => {
-    const res = await axios.delete(`${APIURL}/${id}`)
-    console.log(res);
-    if (res.status == 200) {
-        getPostData();
-    }
-}
+
 
 
 
@@ -55,7 +49,13 @@ if (loading) {
     )
 }
 
-
+const handleDelPost = async (id) => {
+    const res = await axios.delete(`${APIURL}/${id}`);
+    if (res.status === 200) {
+        getPostData();
+    }
+    
+} 
 
 
 
@@ -91,7 +91,7 @@ if (loading) {
                                     <td>{item.author}</td>
                                     <td>
                                         <Link className="action_btn" to={`/create-post/${item.id}`}>Edit</Link>
-                                        <button className="action_btn"onClick={()=>handleDeletePost(item.id)}>Delete</button>
+                                        <button className="action_btn"onClick={()=>handleDelPost(item.id)}>Delete</button>
                                     </td>
                                 </tr>
                             )
