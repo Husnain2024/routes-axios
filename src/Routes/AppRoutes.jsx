@@ -6,6 +6,7 @@ import Books from '../components/BookList'
 import CreateBook from '../components/create-book';
 import ViewPost from '../manage-posts/view';
 import CreatePost from '../manage-posts/create';
+import NotFound from '../components/Notfound';
 
 export const AppRoutes = () =>{
     return(
@@ -19,6 +20,7 @@ export const AppRoutes = () =>{
         <Route path='/create-book' element={<CreateBook/>}/>
         <Route path='/blogs' element={<ViewPost/>}/>
         <Route path='/create-post/:id?' element={<CreatePost/>}/>
+        <Route path='*' element={<NotFound/>}/>
       </Routes>
     )
 } 

@@ -22,6 +22,10 @@ export const Header = ()=>{
             name:"Books",
             url:"/books"
         },
+        {
+            name:"Users",
+            url:"/users"
+        }
     ]
     return(
         <>

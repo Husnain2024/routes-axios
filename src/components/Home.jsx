@@ -1,6 +1,19 @@
+import { useState } from 'react';
 export const Home = ()=>{
 
-    return(
-        <h2>This is Home Page</h2>
-    )
+        const [reLoad, setReload] = useState(true);
+        console.log(reLoad);
+        
+
+const handleClick = () => setReload((prevReLoad) => !prevReLoad)
+
+
+    
+    return (
+      <div className="grid place-items-center h-dvh bg-zinc-900/15">
+        <button onClick={handleClick}>Notify !</button>
+      
+      </div>
+    );
 }
+

@@ -1,13 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
+import UseFetchData from "../hooks/useFetchData";
  const ViewPost = () =>{
 
 
-const[post,setPost]=useState([]);
-const[loading,setLoading]=useState(false);
-const[error,setError]=useState("");
+    const [reLoad, setReload] = useState(true);
+
 const[count,setCount]=useState(0);
     
 console.log(count);
@@ -15,31 +14,7 @@ console.log(count);
 
 const APIURL = "https://676abac0863eaa5ac0df6fca.mockapi.io/post"
 
-const getPostData = async () => {
-    setLoading(true)
-    try {
-        const res = await axios.get(APIURL);
-        if (res.status === 200) {
-            setLoading(false)
-            setError("");
-            setPost(res.data ?? [])
-        }
-        
-    } catch (error) {
-        setError("Something went wrong");
-        console.error(error);
-        setLoading(false)
-
-    }
-}
-
-
-useEffect(()=>{
-    getPostData();
-},[])
-
-
-
+const{loading,error,data}=UseFetchData(APIURL,reLoad);
 
 
 
@@ -52,7 +27,7 @@ if (loading) {
 const handleDelPost = async (id) => {
     const res = await axios.delete(`${APIURL}/${id}`);
     if (res.status === 200) {
-        getPostData();
+        setReload((prevReLoad) => !prevReLoad)
     }
     
 } 
@@ -69,7 +44,7 @@ const handleDelPost = async (id) => {
             <h2>{error}</h2>
         )}
         {
-            post && post.length > 0 && (
+            data && data.length > 0 && (
                 <table border={1}>
                 <thead>
                 <tr>
@@ -82,7 +57,7 @@ const handleDelPost = async (id) => {
                 </thead>
                 <tbody>
                     {
-                        post && post.map((item,index)=>{
+                        data && data.map((item,index)=>{
                             return(
                                 <tr key={index}>
                                     <td>{item.id}</td>

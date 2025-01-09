@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast, ToastContainer } from 'react-toastify';
 
 const CreatePost = ()  =>{
 
@@ -62,14 +63,16 @@ const handleSubmit = async (e) => {
         if (params.id) {
             console.log("edit ho gaya hai");    
             const res = await axios.put(`${APIURL}/${params.id}`,formData)
+            
             if (res.status === 201 || res.status === 200) {
+                toast.error("Edit ho gaya hai"); 
                 setFormData({
                         title:"",
                         author:"",
                         description:""
                     }
                 )   
-                navigate('/blogs');
+                // navigate('/blogs');
             }
         }
         else{
@@ -78,13 +81,15 @@ const handleSubmit = async (e) => {
             
             // agar id nahe ho gi jab create ho ga
             if (res.status === 201) {
+                toast.success("Add ho gaya hai"); 
                 setFormData({
                         title:"",
                         author:"",
                         description:""
                     }
-                )   
-                navigate('/blogs');
+                )
+                // setTimeout(navigate('/blogs'), 1000);
+    
             }
         }
         
@@ -116,6 +121,9 @@ const handleSubmit = async (e) => {
                 <input className="submit_btn" type="submit"  />
             </div>
         </form>
+        <ToastContainer />
+
+
         </>)
 }
 
