@@ -1,19 +1,14 @@
 import { useState } from 'react';
+import { UseGetUser } from '../hooks/useGetUser';
 export const Home = ()=>{
 
-        const [reLoad, setReload] = useState(true);
-        console.log(reLoad);
-        
+    const{user}=UseGetUser();    
 
-const handleClick = () => setReload((prevReLoad) => !prevReLoad)
-
+console.log(user,"test");
 
     
     return (
-      <div className="grid place-items-center h-dvh bg-zinc-900/15">
-        <button onClick={handleClick}>Notify !</button>
-      
-      </div>
+      <>Welcome {user?.displayName}</>
     );
 }
 

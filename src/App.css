@@ -16,7 +16,6 @@ nav ul {
     background-color: aqua;
     padding: 20px 0;
     justify-content: center;
-    margin-bottom: 30px;
 }
 
 nav ul li {
@@ -82,4 +81,22 @@ form{
     justify-content: center;
     align-items: center;
     height: 50vh;
+}
+header{
+    display: flex;
+    background-color: aqua;
+    justify-content: space-around;
+    align-items: center;
+}
+.btn_wrap a {
+    text-align: center;
+    display: inline-block;
+    margin-bottom: 20px;
+    padding: 10px 20px;
+    background-color: red;
+    text-decoration: none;
+    max-width: 120px;
+    margin: 0 auto;
+    color: #fff;
+    margin: 5px;
 }

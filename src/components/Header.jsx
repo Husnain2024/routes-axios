@@ -1,4 +1,6 @@
 import { NavLink } from "react-router-dom"
+import { signOut } from "firebase/auth"
+import { auth } from "../firebase/config"
 
 export const Header = ()=>{
     const menuList = [
@@ -27,8 +29,14 @@ export const Header = ()=>{
             url:"/users"
         }
     ]
+
+
+
+
     return(
         <>
+        <header>
+
         <nav>
             <ul>
                 {
@@ -45,6 +53,14 @@ export const Header = ()=>{
                 
             </ul>
         </nav>
+
+        <div className="btn_wrap">
+        <NavLink to={"/register"}>Register</NavLink>
+        <NavLink to={"/login"}>Sign In</NavLink>
+        </div>
+        {/* <button onClick={handleLogout}>Logout</button> */}
+        </header>
+
         </>
     )
 }
