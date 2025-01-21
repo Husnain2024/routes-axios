@@ -11,6 +11,8 @@ import SignUp from '../auth/signup';
 import SignIn from '../auth/signin';
 import Dashboard from '../components/dashboard';
 import ProtedtedRoute from './ProtectedRoutes';
+import ViewProducts from '../mange-products/view-products';
+import CreateProduct from '../mange-products/create';
 
 export const AppRoutes = () =>{
     return(
@@ -20,6 +22,8 @@ export const AppRoutes = () =>{
         <Route path='/about' element={<About/>}/>
         <Route path='/books' element={<Books/>}/>
         <Route path='/books' element={<Books/>}/>
+        <Route path='/products' element={<ViewProducts/>}/>
+        <Route path='/create-product' element={<CreateProduct/>}/>
         <Route path='/create-book' element={<CreateBook/>}/>
         <Route path='/blogs' element={
           <ProtedtedRoute>

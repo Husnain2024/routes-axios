@@ -27,6 +27,10 @@ export const Header = ()=>{
         {
             name:"Users",
             url:"/users"
+        },
+        {
+            name:"Products",
+            url:"/products"
         }
     ]
 
