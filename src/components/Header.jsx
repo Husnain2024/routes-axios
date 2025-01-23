@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom"
+import { NavLink, useNavigate } from "react-router-dom"
 import { signOut } from "firebase/auth"
 import { auth } from "../firebase/config"
 
@@ -34,8 +34,16 @@ export const Header = ()=>{
         }
     ]
 
-
-
+const nevigate = useNavigate();
+const handleLogout = async () => {
+    try {
+            await signOut(auth);
+            nevigate('/login');        
+        } catch (error) {
+            console.log(error);
+            
+        }
+}
 
     return(
         <>
@@ -62,7 +70,7 @@ export const Header = ()=>{
         <NavLink to={"/register"}>Register</NavLink>
         <NavLink to={"/login"}>Sign In</NavLink>
         </div>
-        {/* <button onClick={handleLogout}>Logout</button> */}
+        <button onClick={handleLogout}>Logout</button>
         </header>
 
         </>

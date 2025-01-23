@@ -1,12 +1,14 @@
-import { useState } from "react";
-import { addDoc, collection } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { addDoc, collection, getDoc , doc,updateDoc} from "firebase/firestore";
 import { db } from "../firebase/config";
 import { toast, ToastContainer } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const CreateProduct = () =>{
 
     const nevigate = useNavigate();
+    const params = useParams();
+    
 
       const[formData,setFormData]=useState({
             name:"",
@@ -26,30 +28,91 @@ const CreateProduct = () =>{
             })
         }
 
-        console.log(formData,"formData");
 
 
         const handleSubmit = async (e) => {
             e.preventDefault();
             if ((formData.name !== "") && (formData.price !== "") && (formData.discription !== "") ) {
+               
+               if (params.id) {
+
+
+                try {
+                    await updateDoc(doc(db,'products',params.id),formData)
+                    setFormData({
+                     name:"",
+                     price:"",
+                     discription:""
+                 });
+                 toast.success("Edit succesfully")
+                 setTimeout(function() { 
+                     nevigate('/products')
+                 }, 1000);
+                } catch (error) {
+                    console.log(error);
+                    
+                }
+                      
+                
+                
+               }else{
                 const res = await addDoc(collection(db,'products'),formData)
-                console.log(res,"res");
-                toast.success("created")
+             
                 setFormData({
                     name:"",
-                    price:null,
+                    price:"",
                     discription:""
-                })
-                nevigate('/products')
+                });
+                toast.success("Add succesfully")
+                setTimeout(function() { 
+                    nevigate('/products')
+                }, 1000);
+               
+               }
+               
+                
                 
             }else{
                 setError("Field should not be empty");
             }
         }
+
+
+        const getDataById = async (id) => {
+            console.log(id,"check id");
+            
+            try {
+                const res = await getDoc(doc(db,'products',id))
+                console.log("Document data:", res.data());
+
+                const product = {
+                    ...res.data()
+                }
+
+                setFormData(product)
+                
+
+            } catch (error) {
+                console.log(error);
+                
+            }
+        }
+
+
+
+        useEffect(()=>{
+            if (params.id) {
+                getDataById(params.id);
+            }
+        },[params.id])
+
+
         
 
     return(
         <>
+                <h2>{params.id ? "Edit Product" : "Create Product"}</h2>
+
         <form onSubmit={handleSubmit}>
         {error && <h3 style={{textAlign:"center"}}>{error}</h3>}
     
@@ -66,7 +129,7 @@ const CreateProduct = () =>{
                 <textarea name="discription" onChange={handleInputChange} value={formData.discription} ></textarea>
             </div>
             <div>
-                <input className="submit_btn" type="submit"  />
+                <input className="submit_btn" type="submit" value={params.id ? "Edit" : "Submit"}  />
             </div>
         </form>
         <ToastContainer/>

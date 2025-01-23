@@ -1,16 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getDocs,collection } from "firebase/firestore";
+import { getDocs,collection ,deleteDoc,doc} from "firebase/firestore";
 import { db } from "../firebase/config";
+import { toast, ToastContainer } from "react-toastify";
 
 const ViewProducts = () => {
+
 const[products,setProducts]=useState([])
-console.log(products);
-
-
-    const data = [];
-
-
 
 const getProductData = async () => {
     try {
@@ -36,6 +32,18 @@ setProducts(products);
 useEffect(()=>{
     getProductData();
 },[])
+
+
+const handleDelete = async (Id) => {
+    try {
+        await deleteDoc(doc(db,'products',Id));
+        toast.success("deleted")
+        getProductData();
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
 
 
     
@@ -64,8 +72,8 @@ useEffect(()=>{
                                     <td>{item.discription}</td>
                                     <td>{item.price}</td>
                                     <td>
-                                        <Link className="action_btn" to={`/create-post/${item.id}`}>Edit</Link>
-                                        <button className="action_btn" >Delete</button>
+                                        <Link className="action_btn" to={`/create-product/${item.id}`}>Edit</Link>
+                                        <button className="action_btn" onClick={()=>handleDelete(item.id)}>Delete</button>
                                     </td>
                                 </tr>
                             )
@@ -73,6 +81,7 @@ useEffect(()=>{
                     }
                 </tbody>
                 </table>
+                <ToastContainer/>
         </>
     )
 }

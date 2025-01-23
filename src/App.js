@@ -6,6 +6,7 @@ import { ToastContainer } from 'react-toastify';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useEffect, useState } from 'react';
 import { auth } from './firebase/config';
+import ProtedtedRoute from './Routes/ProtectedRoutes';
 
 
 function App() {
@@ -14,7 +15,10 @@ function App() {
 
   return (
   <>
-  <Header/>
+            <ProtedtedRoute>
+                <Header/>
+            </ProtedtedRoute>
+
   <AppRoutes/>
   </>
   );
