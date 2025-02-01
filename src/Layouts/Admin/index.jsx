@@ -8,7 +8,7 @@ import './assets/css/lineicons.css'
 import './assets/css/fullcalendar.css'
 import './assets/css/fullcalendar.css'
 import './assets/css/main.css'
-import './assets/js/bootstrap.bundle.min.js'
+// import './assets/js/bootstrap.bundle.min.js'
 // import './assets/js/main.js'
 
 export const AdminLayout = () => {

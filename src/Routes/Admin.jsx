@@ -1,6 +1,7 @@
 import Dashboard from "../Components/dashboard";
 import {AdminLayout} from '../Layouts/Admin'
-// import ViewProducts from "../mange-products/view-products";
+import CreateProduct from "../Pages/admin/mange-products/create";
+import ViewProducts from "../Pages/admin/mange-products/view-products";
 
 export const AdminRoute = [
     {
@@ -11,11 +12,16 @@ export const AdminRoute = [
                     path: '/admin',
                     element: <Dashboard/>,
                 },
-                // {
+                {
                     
-                //     path: '/products',
-                //     element: <ViewProducts/>,
-                // }
+                    path: '/products',
+                    element: <ViewProducts/>,
+                },
+                {
+                    
+                    path: '/create-product',
+                    element: <CreateProduct/>,
+                }
             ]
     }
 ]
