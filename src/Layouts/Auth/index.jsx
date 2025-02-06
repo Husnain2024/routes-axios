@@ -1,7 +1,9 @@
-const AuthLayout = () =>{
+import { Outlet } from "react-router-dom"
+
+export const AuthLayout = () =>{
     return(
         <>
-        this is Auth layout
+        <Outlet/>
         </>
     )
 }
