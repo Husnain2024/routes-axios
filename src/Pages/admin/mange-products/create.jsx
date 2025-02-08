@@ -3,11 +3,21 @@ import { addDoc, collection, getDoc , doc,updateDoc} from "firebase/firestore";
 import { db } from "../../../firebase/config";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 
 const CreateProduct = () =>{
 
     const nevigate = useNavigate();
     const params = useParams();
+
+
+    const[fileUpload,setFileUpload]=useState({
+        file:null,
+        upload_preset:"cms_image",
+    })
+
+    console.log(fileUpload,"fileUpload");
+    
     
 
       const[formData,setFormData]=useState({
@@ -29,10 +39,23 @@ const CreateProduct = () =>{
         }
 
 
+const API_URL=process.env.REACT_APP_CLOUDNARAY_API;
+
+console.log(API_URL,"mill gay");
+
+const uploadFile = async () => {
+    const res = await  axios.post(API_URL,fileUpload,{headers: {
+        "Content-Type": "multipart/form-data"}
+    })
+
+    return res;
+}
+
+
 
         const handleSubmit = async (e) => {
             e.preventDefault();
-            if ((formData.name !== "") && (formData.price !== "") && (formData.discription !== "") ) {
+            if ((formData.name !== "") && (formData.price !== "") && (formData.discription !== "") && (fileUpload.file !== null) ) {
                
                if (params.id) {
 
@@ -53,20 +76,34 @@ const CreateProduct = () =>{
                     
                 }
                       
-                
-                
                }else{
-                const res = await addDoc(collection(db,'products'),formData)
+
+                const res = await uploadFile();
+
+                const{secure_url}=res.data;
+                if (res.status == 200) {
+
+                    const updatedFormData = {
+                        ...formData,
+                        image:secure_url
+                    }
+                     const res = await addDoc(collection(db,'products'),updatedFormData)
              
-                setFormData({
-                    name:"",
-                    price:"",
-                    discription:""
-                });
+                    setFormData({
+                        name:"",
+                        price:"",
+                        discription:""
+                    });
+
+
                 toast.success("Add succesfully")
                 setTimeout(function() { 
                     nevigate('/products')
                 }, 1000);
+                }
+                
+                
+               
                
                }
                
@@ -108,6 +145,18 @@ const CreateProduct = () =>{
 
 
         
+        const handleInputFile = (e)=>{
+            const file = e.target.files;
+
+            if (file) {
+                setFileUpload({
+                    ...fileUpload,
+                    file:file[0]
+                })
+            }
+            
+        }
+
 
     return(
         <>
@@ -127,6 +176,10 @@ const CreateProduct = () =>{
             <div>
                 <label>Discription</label>
                 <textarea name="discription" onChange={handleInputChange} value={formData.discription} ></textarea>
+            </div>
+            <div>
+                <label>Post Image</label>
+                <input type="file" accept="image/png, image/jpeg" onChange={handleInputFile}/>
             </div>
             <div>
                 <input className="submit_btn" type="submit" value={params.id ? "Edit" : "Submit"}  />
